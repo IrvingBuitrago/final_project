@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Buscar y Agregar Pacientes</title>
+</head>
+<body>
+    <h1>Buscar Paciente</h1>
+    <form action="/patient/search" method="post">
+        <label for="search_name">ID del Paciente:</label>
+        <input type="text" id="search_name" name="search_name">
+        <button type="submit">Buscar</button>
+    </form>
+    <form action="/patient/search" method="post">
+    <button type="submit" formaction="/patient/add">Agregar</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        .bar-link {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: lightgray;
+            border: 1px solid gray;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <form action="/dash" method="post">
+        <a class="bar-link" href="#" onclick="selectOption(1)">dashboard o inicio</a>
+        <a class="bar-link" href="#" onclick="selectOption(2)">citas</a>
+        <a class="bar-link" href="#" onclick="selectOption(3)">lista de pacientes</a>
+        <input type="hidden" id="selected_option" name="opcion">
+    </form>
+
+    <script>
+        function selectOption(option) {
+            document.getElementById("selected_option").value = option;
+            document.querySelector("form").submit();
+        }
+    </script>
+</body>
+</html>
