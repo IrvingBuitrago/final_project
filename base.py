@@ -1,15 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session, g
-import sqlite3
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3 as sql
 import bcrypt
 
 app = Flask(__name__)
 app.secret_key = 'YfeItpdUsWnmgfQ'
-
-def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect('db_clinica')
-    return g.db
-
 
 @app.route('/', methods=["GET"])
 def index():
@@ -18,20 +12,21 @@ def index():
 @app.route('/login', methods=["POST"])
 def login():
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
+        try:
+            username = request.form['username']
+            password_hash = request.form['password_hash']
 
-        db = get_db()
-        user_data = db.execute("SELECT * FROM USER_DATA WHERE USERNAME = ?", (username,)).fetchone()
-        # aqui quiero codificar la contraseña, estaba viendo videos sobre bcryp
-        # si alguien lo sabe usar o tiene conocimiento sobre otra libreria similar, se le agradece
-        if user_data:
-            stored_password = user_data[2]
-            if password == stored_password:
-                session['username'] = username
-                return redirect(url_for('dashboard'))
-            return 'CREDENCIALES INVALIDAS'
-        return render_template('login.html')
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                review = cur.execute('SELECT * FROM USER_DATA WHERE USERNAME = ? AND PASSWORD_HASH = ?', (username, password_hash)).fetchone()
+                if review:
+                    return redirect(url_for('dashboard'))
+                else:
+                    return render_template('login.html', error='credenciales invalidas')
+        except Exception as e:
+            return render_template('login.html', error= str(e))
+    return render_template('login.html')
+
 
 @app.route('/dash', methods=["GET", "POST"])
 def dashboard():
@@ -47,28 +42,90 @@ def dashboard():
             return render_template('dashboard.html')
     return render_template('dashboard.html')
 
-@app.route('/patient', methods=["GET"])
+@app.route('/patient', methods=["GET", "POST"])
 def patient_form():
     return render_template('patient.html')
 
-@app.route('/patient/search', methods=["POST"])
+@app.route('/patient/search', methods=["GET", "POST"])
 def search_patient():
-    pass
+    if request.method == 'POST':
+        try:
+            name_last_name = request.form['name_last_name']
+            name, last_name = name_last_name.split()
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                review = cur.execute('SELECT * FROM PATIENT WHERE NAME = ? AND LAST_NAME = ?', (name,last_name)).fetchone()
+                if review:
+                    return render_template('patient.html', review=review)
+                else:
+                    return render_template('patient.html', error='paciente no encontrado')
+        except Exception as e:
+            return render_template('patient.html', error=str(e))
+    return render_template('patient.html')
 
 
 @app.route('/patient/add', methods=["GET", "POST"])
 def add_patient():
-    pass
+    if request.method == 'POST':
+        try:
+            name = request.form['name']
+            last_name = request.form['last_name']
+            id_pat = request.form['id_pat']
+            birthdate = request.form['birthdate']
+            address = request.form['address']
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                review = cur.execute('SELECT * FROM PATIENT WHERE ID_PAT = ?', (id_pat,)).fetchone()
+                if review:
+                    return render_template('add_patient.html', error='registrado anteriormente')
+                else:
+                    insert = cur.execute('INSERT INTO PATIENT (name, last_name, id_pat, birthdate, address) VALUES (?, ?, ?, ?, ?)', (name, last_name, id_pat, birthdate, address))
+                    con.commit()
+                    return render_template('patient.html', msg='paciente registrado con exito')
+        except Exception as e:
+            return str(e)
+    return render_template('add_patient.html')
+
+
+@app.route('/patient/edit', methods=["GET", "POST"])
+def edit_palabra():
+    if request.method == 'POST':
+        try:
+            column_update = request.form['column_update']
+            new_data = request.form['new_data']
+            name = request.form['name']
+            last_name = request.form['last_name']
+            birthdate = request.form['birthdate']
+            id_pat = request.form['id_pat']
+            address = request.form['address']
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                update = cur.execute(f'UPDATE PATIENT SET {column_update} = ? WHERE NAME = ? AND LAST_NAME = ? AND BIRTHDATE = ? AND ID_PAT = ? AND ADDRESS = ?', (new_data, name, last_name, birthdate, id_pat, address))
+                con.commit()
+                return render_template('patient.html', update=update)
+        except Exception as e:
+            return render_template('patient.html', error=str(e))
+    return render_template('patient.html')
+
+@app.route('/patient/delete', methods=['POST'])
+def delete_patient():
+    try:
+        name = request.form['name']
+        last_name = request.form['last_name']
+
+        with sql.connect('db_clinica') as con:
+            cur = con.cursor()
+            delete = con.execute('DELETE FROM PATIENT WHERE NAME = ? AND LAST_NAME = ?', (name, last_name))
+            con.commit()
+        return render_template('patient.html')
+    except Exception as e:
+        return render_template('patient.html', error=str(e))
 
 
 
-
-# esto de aqui es para tirartodo, no es necesario descomentarlo
-# @app.teardown_appcontext
-# def close_db(exception):
-#     db = g.pop('db', None)
-#     if db is not None:
-#         db.close()
 
 if __name__ == '__main__':
     app.run(debug=True)
