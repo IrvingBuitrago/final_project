@@ -41,6 +41,13 @@ conn = sqlite3.connect('db_clinica')
 #                 FOREIGN KEY (ID_APPO) REFERENCES APPOINTMENT(ID_APPO));''')
 # print('exito')
 
+conn.execute('''CREATE TABLE IF NOT EXISTS APPOINTMENT
+                (ID_APPO INTEGER PRIMARY KEY AUTOINCREMENT,
+                APPO_DATE DATE NOT NULL,
+                TIME TEXT NOT NULL,
+                REASON TEXT NOT NULL);''')
+
+
 
 
 # conn.execute("INSERT INTO PATIENT (name, last_name, birthdate, id_pat, address) VALUES (?, ?, ?, ?, ?)",

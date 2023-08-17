@@ -123,6 +123,54 @@ def delete_patient():
         return render_template('patient.html')
     except Exception as e:
         return render_template('patient.html', error=str(e))
+    
+# ...
+
+@app.route('/appointment', methods=["GET"])
+def appointment_form():
+    return render_template('add_appointment.html')
+
+@app.route('/appointment/add', methods=["POST"])
+def add_appointment():
+    if request.method == 'POST':
+        try:
+            appo_date = request.form['appo_date']
+            time = request.form['time']
+            reason = request.form['reason']
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                insert = cur.execute('INSERT INTO APPOINTMENT (APPO_DATE, TIME, REASON) VALUES (?, ?, ?)', (appo_date, time, reason))
+                con.commit()
+                return render_template('add_appointment.html', msg='Cita agregada con éxito')
+        except Exception as e:
+            return str(e)
+    return render_template('add_appointment.html')
+
+# ...
+
+# ...
+
+@app.route('/appointment/search', methods=["GET", "POST"])
+def search_appointment():
+    if request.method == 'POST':
+        try:
+            name_last_name = request.form['name_last_name']
+            name, last_name = name_last_name.split()
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                review = cur.execute('SELECT * FROM PATIENT_APPOINTMENT WHERE NAME = ? AND LAST_NAME = ?', (name, last_name)).fetchone()
+                if review:
+                    return render_template('search_appointment.html', review=review)
+                else:
+                    return render_template('search_appointment.html', error='Cita no encontrada')
+        except Exception as e:
+            return render_template('search_appointment.html', error=str(e))
+    return render_template('search_appointment.html')
+
+# ...
+
 
 
 
