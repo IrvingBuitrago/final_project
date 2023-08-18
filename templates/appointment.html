@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles de la Cita</title>
+</head>
+<body>
+    <h1>Detalles de la Cita</h1>
+    <form method="post" action="/appointment/search">
+        <label for="name_last_name">Buscar Cita por Nombre y Apellido:</label>
+        <input type="text" name="name_last_name" required>
+        <input type="submit" value="Buscar">
+    </form>
+
+    {% if name_last_name %}
+        <p><strong>Nombre y Apellido:</strong> {{ name_last_name }}</p>
+    {% endif %}
+
+    {% if appo_review %}
+        <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
+        <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
+        <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
+        <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <form method="get" action="/appointment/add">
+        <button type="submit">Agregar Cita</button>
+    </form>
+</body>
+</html>
+
