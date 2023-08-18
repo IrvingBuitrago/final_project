@@ -74,7 +74,29 @@ def add_patient():
             id_pat = request.form['id_pat']
             birthdate = request.form['birthdate']
             address = request.form['address']
+#            with sql.connect('db_clinica') as con:
+#                cur = con.cursor()
+#                review = cur.execute('SELECT * FROM PATIENT WHERE ID_PAT = ?', (id_pat,)).fetchone()
+#                  if review:
+#                      return render_template('add_patient.html', error='registrado anteriormente')
+#                  else:
+#                      insert_patient = cur.execute('INSERT INTO PATIENT (name, last_name, id_pat, birthdate, address) VALUES (?, ?, ?, ?, ?)', (name, last_name, id_pat, birthdate, address))
+#                      con.commit()
+#  
+#                      appo_date = request.form['appo_date']
+#                      time = request.form['time']
+#                      reason = request.form['reason']
+#                      insert_appointment = cur.execute('INSERT INTO APPOINTMENT (APPO_DATE, TIME, REASON) VALUES (?, ?, ?)', (appo_date, time, reason))
+#                      con.commit()
+#  
+#                      # Associate the appointment with the patient
+#                      cur.execute('INSERT INTO PATIENT_APPOINTMENT (ID_PAT, ID_APPO) VALUES (?, ?)', (id_pat, cur.lastrowid))
+#                      con.commit()
 
+                    return render_template('patient.html', msg='paciente registrado con exito')
+        except Exception as e:
+            return str(e)
+    return render_template('add_patient.html')
             with sql.connect('db_clinica') as con:
                 cur = con.cursor()
                 review = cur.execute('SELECT * FROM PATIENT WHERE ID_PAT = ?', (id_pat,)).fetchone()
