@@ -87,6 +87,25 @@
         <form method="get" action="{{ url_for('patient_form') }}">
         <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Pacientes</button>
     </form>
+
+    <form method="post" action="/appointment/delete">
+        <input type="hidden" name="name" value="{{ name }}">
+        <input type="hidden" name="last_name" value="{{ last_name }}">
+        <button type="submit">Eliminar Cita</button>
+    </form>
+
+    <form method="post" action="/appointment/edit">
+        <h2>Editar Cita</h2>
+        <input type="hidden" name="name_last_name" value="{{ name_last_name }}">
+        <label for="appo_date">Fecha de Cita:</label>
+        <input type="date" name="appo_date" required>
+        <label for="time">Hora:</label>
+        <input type="time" name="time" required>
+        <label for="reason">Motivo:</label>
+        <input type="text" name="reason" required>
+        <button type="submit">Editar Cita</button>
+    </form>
+    
     </div>
 </body>
 </html>
