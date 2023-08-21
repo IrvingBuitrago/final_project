@@ -27,10 +27,6 @@ conn = sqlite3.connect('db_clinica')
 
 
 
-# conn.execute('DROP TABLE IF EXISTS DENTIST')
-# print('listo')
-
-
 # def register_user(username, password):
 #     try:
 #         password_hash = pbkdf2_sha256.hash(password)  # Generar el hash de la contraseña
@@ -46,7 +42,6 @@ conn = sqlite3.connect('db_clinica')
 # # Registrar un nuevo usuario
 # register_user('admin_Admin', 'admin456')
 
-# conn.execute('DELETE FROM USER_DATA WHERE USERNAME = "admin"')
 
 
 

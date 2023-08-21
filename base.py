@@ -10,7 +10,7 @@ app.secret_key = 'YfeItpdUsWnmgfQ'
 def index():
     return render_template('login.html')
 
-@app.route('/login', methods=["POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         try:
@@ -223,6 +223,11 @@ def delete_appointment():
     except:
         return render_template('appointment.html', error='No se elimino correctamente')
 
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    if 'username' in session:
+        session.pop('username', None)
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
