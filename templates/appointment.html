@@ -2,84 +2,36 @@
 <html>
 <head>
     <title>Detalles de la Cita</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <style>
-        body{
-            font-family: "Raleway", sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            color: black;
-            justify-content: center;
-            align-items: center;
-            background-image: url('https://images.pexels.com/photos/3845810/pexels-photo-3845810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr');
+        body {
+            background-image: url('https://images.pexels.com/photos/3845810/pexels-photo-3845810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
             background-size: cover;
-        }
-
-        h1 {
-            height: -75vh;
-            color: white;
+            display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-
-        .content {
-            background-color: rgba(0, 0, 0, 0.8);
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
-            width: 500px;
-            box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
-            text-align: center;
-            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        label {
+        .bar-link {
             display: block;
-            margin-bottom: 10px;
-            background-color: #0000;
+            width: 200px;
+            padding: 10px;
+            background-color: #2096CD;
+            border: 1px solid gray;
             text-align: center;
+            text-decoration: none;
             color: white;
             font-weight: bold;
-            margin-bottom: 20px;
-            align-self: center;
-        }
-
-        input, textarea {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
-            background-color: #00000;
-            color: black;
-            font-weight: bold;
-            border: 1px solid white;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .w3-card-4, .content{
-            display: block;
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 20px;
-            background-color: #00000;
-            color: white;
-            font-weight: bold;
+            margin-bottom: 5px;
+            align-self: flex-start;
         }
     </style>
 </head>
