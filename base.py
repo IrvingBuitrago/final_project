@@ -179,9 +179,49 @@ def add_appointment():
             return render_template('add_appointment.html', msg= 'La cita no se agrego correctamente')
     return render_template('add_appointment.html')
 
+@app.route('/appointment/edit', methods= ["GET", "POST"])
+def edit_appointment():
+    if request.method == "POST":
+        try:
+            column_update = request.form['column_update']
+            new_data = request.form['new_data']
+            name_last_name = request.form['name_last_name']
+            name, last_name = name_last_name.split()
+            appo_date = request.form['appo_date']
+            time = request.form['time']
+            reason = request.form['reason']
 
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                update = cur.execute(f'UPDATE APPOINTMENT SET {column_update} = ? WHERE APPO_DATE = ? AND TIME = ? AND REASON = ?', (appo_date, time, reason))
+                con.commit()
+                return render_template('appointment.html', update=update)
+        except:
+            return render_template('appointment.html', error='No se edito la cita correctamente')
+    return render_template('appointment.html')
 
+@app.route('/appointment/delete', methods=["POST"])
+def delete_appointment():
+    try:
+        name = request.form['name']
+        last_name = request.form['last_name']
 
+        with sql.connect('db_clinica.db') as con:
+            cur = con.cursor()
+            patient_id = cur.execute('SELECT ID FROM PATIENT WHERE NAME = ? AND LAST_NAME = ?', (name, last_name)).fetchone()
+            if patient_id:
+                id_patient = patient_id[0]
+                exist_appo = cur.execute('SELECT ID FROM APPOINTMENT WHERE ID_PATIENT = ?', (id_patient,)).fetchone()
+                if exist_appo:
+                    delete = cur.execute('DELETE FROM APPOINTMENT WHERE ID_PATIENT = ?', (id_patient,))
+                    con.commit()
+                    return render_template('appointment.html', msg='Cita eliminada')
+                else:
+                    return render_template('appointment.html', msg='Cita NO eliminada')
+            else:
+                return render_template('appointment.html', msg='Cita NO encontrada')
+    except:
+        return render_template('appointment.html', error='No se elimino correctamente')
 
 
 if __name__ == '__main__':
