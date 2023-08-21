@@ -152,7 +152,6 @@ def search_appointment():
         except:
             return render_template('appointment.html', error= 'No se encontro el paciente')
     return render_template('appointment.html')
-
 @app.route('/appointment/add', methods=["GET", "POST"])
 def add_appointment():
     if request.method == 'POST':
@@ -179,6 +178,7 @@ def add_appointment():
         except:
             return render_template('add_appointment.html', msg= 'La cita no se agrego correctamente')
     return render_template('add_appointment.html')
+
 
 
 
