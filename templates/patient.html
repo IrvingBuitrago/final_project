@@ -20,13 +20,14 @@
             background-size: cover;
         }
 
-        form {
+        .content {
             background-color: rgba(0, 0, 0, 0.8);
             padding: 20px;
             border-radius: 10px;
             width: 500px;
             box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
             text-align: center;
+            margin: 20px auto;
         }
 
         label {
@@ -67,56 +68,58 @@
     </style>
 </head>
 <body>
-    <form method="post" action="/patient/search">
-        <label for="name_last_name">Nombre:</label>
-        <input type="text" id="name_last_name" name="name_last_name" required>
-        <input type="submit" value="Buscar Paciente">
+    <div class="content">
+        <form method="post" action="/patient/search">
+            <label for="name_last_name">Nombre:</label>
+            <input type="text" id="name_last_name" name="name_last_name" required>
+            <input type="submit" value="Buscar Paciente">
+        </form>
+
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+
+        <form method="get" action="/patient/add">
+            <input type="submit" value="Agregar Paciente">
+        </form>
+
+        {% if review %}
+            <h2>Resultado de la búsqueda:</h2>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>ID</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Direccion</th>
+                </tr>
+                <tr>
+                    <td colspan="3">{{ review[1] }} {{ review[2] }} {{ review[0] }} {{ review[3] }} {{review[4] }}</td>
+                </tr>
+            </table>
+            <h2>Editar Paciente:</h2>
+            <form method="post" action="/patient/edit">
+                <select name="column_update">
+                    <option value="name">Nombre</option>
+                    <option value="last_name">Apellido</option>
+                    <option value="id">ID</option>
+                    <option value="birthdate">Fecha de Nacimiento</option>
+                    <option value="address">Dirección</option>
+                </select>
+                <input type="text" name="new_data" placeholder="Nuevo valor">
+                <input type="hidden" name="name" value="{{ review[1] }}">
+                <input type="hidden" name="last_name" value="{{ review[2] }}">
+                <input type="hidden" name="id" value="{{ review[0] }}">
+                <input type="hidden" name="birthdate" value="{{ review[3] }}">
+                <input type="hidden" name="address" value="{{ review[4] }}">
+                <input type="submit" value="Editar">
+            </form>
+            <h2>Eliminar Paciente:</h2>
+            <form method="post" action="/patient/delete">
+                <input type="hidden" name="name" value="{{ review[1] }}">
+                <input type="hidden" name="last_name" value="{{ review[2] }}">
+                <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este paciente?')">
+            </form>
+        {% endif %}
+    </div>
 </body>
-    </form>
-
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-
-    <form method="get" action="/patient/add">
-        <input type="submit" value="Agregar Paciente">
-    </form>
-
-    {% if review %}
-        <h2>Resultado de la búsqueda:</h2>
-        <table>
-            <tr>
-                <th>Nombre</th>
-                <th>ID</th>
-                <th>Fecha de nacimiento</th>
-                <th>Direccion</th>
-            </tr>
-            <tr>
-                <td colspan="3">{{ review[1] }} {{ review[2] }} {{ review[0] }} {{ review[3] }} {{review[4] }}</td>
-            </tr>
-        </table>
-        <h2>Editar Paciente:</h2>
-        <form method="post" action="/patient/edit">
-            <select name="column_update">
-                <option value="name">Nombre</option>
-                <option value="last_name">Apellido</option>
-                <option value="id">ID</option>
-                <option value="birthdate">Fecha de Nacimiento</option>
-                <option value="address">Dirección</option>
-            </select>
-            <input type="text" name="new_data" placeholder="Nuevo valor">
-            <input type="hidden" name="name" value="{{ review[1] }}">
-            <input type="hidden" name="last_name" value="{{ review[2] }}">
-            <input type="hidden" name="id" value="{{ review[0] }}">
-            <input type="hidden" name="birthdate" value="{{ review[3] }}">
-            <input type="hidden" name="address" value="{{ review[4] }}">
-            <input type="submit" value="Editar">
-        </form>
-        <h2>Eliminar Paciente:</h2>
-        <form method="post" action="/patient/delete">
-            <input type="hidden" name="name" value="{{ review[1] }}">
-            <input type="hidden" name="last_name" value="{{ review[2] }}">
-            <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este paciente?')">
-        </form>
-    {% endif %}
 </html>

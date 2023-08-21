@@ -19,13 +19,14 @@
             background-size: cover;
         }
 
-        form {
+        .content {
             background-color: rgba(0, 0, 0, 0.8);
             padding: 20px;
             border-radius: 10px;
             width: 500px;
             box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
             text-align: center;
+            margin: 20px auto;
         }
 
         label {
@@ -67,30 +68,32 @@
     </style>
 </head>
 <body>
-    <h1>Detalles de la Cita</h1>
-    <form method="post" action="/appointment/search">
-        <label for="name_last_name">Buscar Cita por Nombre y Apellido:</label>
-        <input type="text" name="name_last_name" required>
-        <input type="submit" value="Buscar">
-    </form>
+    <div class="content">
+        <h1>Detalles de la Cita</h1>
+        <form method="post" action="/appointment/search">
+            <label for="name_last_name">Buscar Cita por Nombre y Apellido:</label>
+            <input type="text" name="name_last_name" required>
+            <input type="submit" value="Buscar">
+        </form>
 
-    {% if name_last_name %}
-        <p><strong>Nombre y Apellido:</strong> {{ name_last_name }}</p>
-    {% endif %}
+        {% if name_last_name %}
+            <p><strong>Nombre y Apellido:</strong> {{ name_last_name }}</p>
+        {% endif %}
 
-    {% if appo_review %}
-        <div class="w3-card-4" style="width: 500px; margin: 20px auto; padding: 20px; background-color: rgba(0, 0, 0, 0.8); border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8); text-align: center;">
-            <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
-            <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
-            <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
-            <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
-        </div>
-    {% else %}
-        <p>{{ error }}</p>
-    {% endif %}
+        {% if appo_review %}
+            <div class="w3-card-4">
+                <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
+                <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
+                <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
+                <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
+            </div>
+        {% else %}
+            <p>{{ error }}</p>
+        {% endif %}
 
-    <form method="get" action="/appointment/add">
-        <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Agregar Cita</button>
-    </form>
+        <form method="get" action="/appointment/add">
+            <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Agregar Cita</button>
+        </form>
+    </div>
 </body>
 </html>
