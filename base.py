@@ -193,7 +193,7 @@ def edit_appointment():
 
             with sql.connect('db_clinica') as con:
                 cur = con.cursor()
-                update = cur.execute(f'UPDATE APPOINTMENT SET {column_update} = ? WHERE APPO_DATE = ? AND TIME = ? AND REASON = ?', (appo_date, time, reason))
+                update = cur.execute(f'UPDATE APPOINTMENT SET {column_update} = ? WHERE APPO_DATE = ? AND TIME = ? AND REASON = ?', (new_data, appo_date, time, reason))
                 con.commit()
                 return render_template('appointment.html', update=update)
         except:
