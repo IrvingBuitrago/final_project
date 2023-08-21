@@ -2,6 +2,69 @@
 <html>
 <head>
     <title>Detalles de la Cita</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+        body, h1 {
+            font-family: "Raleway", sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://images.pexels.com/photos/3845810/pexels-photo-3845810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr');
+            background-size: cover;
+        }
+
+        form {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            background-color: #0000;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+            align-self: center;
+        }
+
+        input, textarea {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            background-color: #00000;
+            color: black;
+            font-weight: bold;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Detalles de la Cita</h1>
@@ -16,17 +79,18 @@
     {% endif %}
 
     {% if appo_review %}
-        <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
-        <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
-        <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
-        <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
+        <div class="w3-card-4" style="width: 500px; margin: 20px auto; padding: 20px; background-color: rgba(0, 0, 0, 0.8); border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8); text-align: center;">
+            <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
+            <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
+            <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
+            <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
+        </div>
     {% else %}
         <p>{{ error }}</p>
     {% endif %}
 
     <form method="get" action="/appointment/add">
-        <button type="submit">Agregar Cita</button>
+        <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Agregar Cita</button>
     </form>
 </body>
 </html>
-
