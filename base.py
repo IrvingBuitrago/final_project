@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3 as sql
 from passlib.hash import pbkdf2_sha256
 
+
 app = Flask(__name__)
 app.secret_key = 'YfeItpdUsWnmgfQ'
 
@@ -35,9 +36,9 @@ def dashboard():
         if opcion == 1:
             return render_template('dashboard.html')
         elif opcion == 2:
-            return render_template('appointment.html')
+            return redirect(url_for('appointment_form'))
         elif opcion == 3:
-            return render_template('patient.html')
+            return redirect(url_for('patient_form'))
         else:
             return render_template('dashboard.html')
     return render_template('dashboard.html')
@@ -178,6 +179,8 @@ def add_appointment():
         except:
             return render_template('add_appointment.html', msg= 'La cita no se agrego correctamente')
     return render_template('add_appointment.html')
+
+
 
 
 
