@@ -33,6 +33,21 @@
             margin-bottom: 5px;
             align-self: flex-start;
         }
+
+        .content {
+            background-color: rgba(54, 43, 43, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        h1,label, .w3-card-4, .errores, .modificar {
+            color: white; 
+        }
+
     </style>
 </head>
 <body>
@@ -44,20 +59,24 @@
             <input type="submit" value="Buscar">
         </form>
 
-        {% if name_last_name %}
+            <div class="modificar">
+            {% if name_last_name %}
             <p><strong>Nombre y Apellido:</strong> {{ name_last_name }}</p>
-        {% endif %}
+            {% endif %}
+            {% if appo_review %}
+            </div>
 
-        {% if appo_review %}
             <div class="w3-card-4">
                 <p><strong>ID del Paciente:</strong> {{ appo_review[1] }}</p>
                 <p><strong>Fecha de Cita:</strong> {{ appo_review[2] }}</p>
                 <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
                 <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
             </div>
+        <div class="errores">
         {% else %}
             <p>{{ error }}</p>
-        {% endif %}
+        {% endif %}    
+        </div>    
 
         <form method="get" action="/appointment/add">
             <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Agregar Cita</button>
