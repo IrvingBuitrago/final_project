@@ -72,23 +72,23 @@
                 <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
                 <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
             </div>
-        <h2>Editar Cita</h2>
-        <form method="post" action="/appointment/edit">
-        <select name="column_update">
-                    <option value="appo_date">Fecha</option>
-                    <option value="time">Hora</option>
-                    <option value="reason">Motivo</option>
-                </select>
-                <input type="text" name="new_data" placeholder="Nuevo valor">
-                <input type="hidden" name="appo_date" value="{{ appo_review[2] }}">
-                <input type="hidden" name="time" value="{{ appo_review[3] }}">
-                <input type="hidden" name="reason" value="{{ appo_review[4] }}">
-                <input type="submit" value="Editar">
-            </form>
-            <form method="post" action="/appointment/delete">
-        <input type="hidden" name="id_patient" value="{{ id_patient }}">
-        <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta cita?')">
-    </form>
+<!--        <h2>Editar Cita</h2>-->
+<!--        <form method="post" action="/appointment/edit">-->
+<!--        <select name="column_update">-->
+<!--                    <option value="appo_date">Fecha</option>-->
+<!--                    <option value="time">Hora</option>-->
+<!--                    <option value="reason">Motivo</option>-->
+<!--                </select>-->
+<!--                <input type="text" name="new_data" placeholder="Nuevo valor">-->
+<!--                <input type="hidden" name="appo_date" value="{{ appo_review[2] }}">-->
+<!--                <input type="hidden" name="time" value="{{ appo_review[3] }}">-->
+<!--                <input type="hidden" name="reason" value="{{ appo_review[4] }}">-->
+<!--                <input type="submit" value="Editar">-->
+<!--            </form>-->
+<!--            <form method="post" action="/appointment/delete">-->
+<!--        <input type="hidden" name="id_patient" value="{{ id_patient }}">-->
+<!--        <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta cita?')">-->
+<!--    </form>-->
         <div class="errores">
         {% else %}
             <p>{{ error }}</p>
