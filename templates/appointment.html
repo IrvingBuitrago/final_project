@@ -72,6 +72,23 @@
                 <p><strong>Hora:</strong> {{ appo_review[3] }}</p>
                 <p><strong>Motivo:</strong> {{ appo_review[4] }}</p>
             </div>
+        <h2>Editar Cita</h2>
+        <form method="post" action="/appointment/edit">
+        <select name="column_update">
+                    <option value="appo_date">Fecha</option>
+                    <option value="time">Hora</option>
+                    <option value="reason">Motivo</option>
+                </select>
+                <input type="text" name="new_data" placeholder="Nuevo valor">
+                <input type="hidden" name="appo_date" value="{{ appo_review[2] }}">
+                <input type="hidden" name="time" value="{{ appo_review[3] }}">
+                <input type="hidden" name="reason" value="{{ appo_review[4] }}">
+                <input type="submit" value="Editar">
+            </form>
+            <form method="post" action="/appointment/delete">
+        <input type="hidden" name="id_patient" value="{{ id_patient }}">
+        <input type="submit" value="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta cita?')">
+    </form>
         <div class="errores">
         {% else %}
             <p>{{ error }}</p>
@@ -88,24 +105,6 @@
         <button type="submit" style="background-color: #007bff; color: #ffffff; border: none; padding: 10px 20px; border-radius: 3px; cursor: pointer;">Pacientes</button>
     </form>
 
-    <form method="post" action="/appointment/delete">
-        <input type="hidden" name="name" value="{{ name }}">
-        <input type="hidden" name="last_name" value="{{ last_name }}">
-        <button type="submit">Eliminar Cita</button>
-    </form>
-
-    <form method="post" action="/appointment/edit">
-        <h2>Editar Cita</h2>
-        <input type="hidden" name="name_last_name" value="{{ name_last_name }}">
-        <label for="appo_date">Fecha de Cita:</label>
-        <input type="date" name="appo_date" required>
-        <label for="time">Hora:</label>
-        <input type="time" name="time" required>
-        <label for="reason">Motivo:</label>
-        <input type="text" name="reason" required>
-        <button type="submit">Editar Cita</button>
-    </form>
-    
     </div>
 </body>
 </html>
