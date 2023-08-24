@@ -1,0 +1,28 @@
+@app.route('/appointment/add', methods=["GET", "POST"])
+def add_appointment():
+    if request.method == 'POST':
+        try:
+            name_last_name = request.form['name_last_name']
+            name, last_name = name_last_name.split()
+            appo_date = request.form['appo_date']
+            time = request.form['time']
+            reason = request.form['reason']
+
+            with sql.connect('db_clinica') as con:
+                cur = con.cursor()
+                patient_id = cur.execute('SELECT ID FROM PATIENT WHERE NAME = ? AND LAST_NAME = ?', (name, last_name)).fetchone()
+                if patient_id:
+                    exist_appo = cur.execute('SELECT * FROM APPOINTMENT WHERE APPO_DATE = ? AND TIME = ?',(appo_date, time)).fetchone()
+                    if exist_appo:
+                        return render_template('add_appointment.html', msg='Ya hay una cita registrada en ese horario.')
+                    else:
+                        insert = cur.execute('INSERT INTO APPOINTMENT (ID_PATIENT, APPO_DATE, TIME, REASON) VALUES (?, ?, ?, ?)', (patient_id[0], appo_date, time, reason))
+                        con.commit()
+                    return render_template('appointment.html', msg='Cita agregada con éxito')
+                else:
+                    return render_template('add_appointment.html', msg='Paciente no encontrado')
+        except:
+            return render_template('add_appointment.html', msg= 'La cita no se agrego correctamente')
+    return render_template('add_appointment.html')
+
+
